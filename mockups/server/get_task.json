@@ -1,0 +1,20 @@
+{
+	"id": 1,
+	"title": "do this",
+	"post": "please eat the banana!",
+	"assigned_to": [
+		{
+			"_id": "23487aefa8",
+			"name": "Ronald Weasley",
+			"assigned_at": 3294893472347
+		},
+		{
+			"_id": "39258ead7",
+			"name": "Sidhant Chadda",
+			"assigned_at": 983428983240
+		}
+	],
+	"startDate": 2317695158387,
+	"endDate": 3248729384773,
+	"alerts": 0
+}
