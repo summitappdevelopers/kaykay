@@ -1,5 +1,5 @@
 # kaykay
-A "will-do" task manager with a funky timeline.
+A new way to manage projects with other people.
 
 ## How-To
 Run `node server/server.js`.
