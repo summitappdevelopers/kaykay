@@ -1,11 +1,11 @@
 {
 	"id": 1,
-	"title": "do this",
-	"post": "please eat the banana!",
+	"title": "Test Title",
+	"description": "A Task",
 	"assigned_to": [
 		{
 			"_id": "23487aefa8",
-			"name": "Ronald Weasley",
+			"name": "Test Name",
 			"assigned_at": 3294893472347
 		},
 		{
