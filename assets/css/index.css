@@ -1,0 +1,142 @@
+/*////////////////////  ANIMATIONS START  ////////////////////*/
+@-webkit-keyframes grow {
+	from {
+		transform: scale(1.0);
+	}
+	to {
+		transform: scale(1.03);
+	}
+}
+
+@-webkit-keyframes shrink {
+	from {
+		transform: scale(1.03);
+	}
+	to {
+		transform: scale(1.0);
+	}
+}
+
+@-webkit-keyframes contract {
+	from {
+		width: 90px;
+		opacity: 1;
+	}
+	to {
+		width: 50px;
+		opacity: 0.5;
+	}
+}
+
+@-webkit-keyframes expand {
+	from {
+		width: 50px;
+		opacity: 0.5;
+	}
+	to {
+		width: 90px;
+		opacity: 1;
+	}
+}
+/*////////////////////  ANIMATIONS END  ////////////////////*/
+
+/*////////////////////  GLOBAL START  ////////////////////*/
+body {
+	background-color: #4B84DE;
+	font-family: "Roboto", sans-serif;
+	margin: 0px;
+}
+/*////////////////////  GLOBAL END  ////////////////////*/
+
+/*////////////////////  ADD BUTTON START  ////////////////////*/
+.add {
+	position: fixed;
+	width: 50px;
+	height: 70px;
+	top: 0px;
+	left: 0px;
+	background-color: white;
+	opacity: 0.5;
+	text-align: center;
+	cursor: pointer;
+	-webkit-animation: contract 0.25s forwards;
+	animation: contract 0.25s forwards;
+}
+
+.add:hover {
+	-webkit-animation: expand 0.25s forwards;
+	animation: expand 0.25s forwards;
+}
+
+.add-img {
+	margin-top: 10px;
+	width: 50px;
+	height: 50px;
+}
+/*////////////////////  ADD BUTTON END  ////////////////////*/
+
+/*////////////////////  TASK CARD START  ////////////////////*/
+.task-card {
+	margin: 15px;
+	display: inline-block;
+	height: auto;
+	width: 160px;
+	background-color: white;
+	-webkit-box-shadow: -1px 6px 24px 1px rgba(0, 0, 0, 0.75);
+	cursor: pointer;
+	-webkit-animation: shrink 0.3s;
+	-webkit-animation-fill-mode: forwards;
+	padding: 10px;
+	float: left;
+}
+
+.task-card:hover {
+	background-color: white;
+	-webkit-box-shadow: -1px 6px 24px 1px rgba(0, 0, 0, 0.75);
+	cursor: pointer;
+	-webkit-animation: grow 0.3s;
+	-webkit-animation-fill-mode: forwards;
+}
+
+.input-box {
+	width: 95%;
+	padding: 0;
+	height: 2em;
+	font-size: 2em;
+	border: 0;
+	outline: none;
+	color: black;
+}
+
+.input-text {
+	display: inline;
+	margin-bottom: 0px;
+	width:100%;
+	height: 100%;
+	height: 2em;
+	font-size: 1em;
+	border: 0;
+	outline: none;
+	color: black;
+	resize: none;
+}
+
+.task-card-resize-handle {
+	height: 100%;
+	width: 10px;
+	background-color: red;
+}
+
+.time-text {
+	color: #858585;
+}
+/*////////////////////  TASK CARD END  ////////////////////*/
+
+/*////////////////////  TIMELINE START  ////////////////////*/
+#timeline {
+	height: 220px;
+	width: 0px;
+	margin-top: 90px;
+	overflow: scroll;
+}
+/*////////////////////  TIMELINE END  ////////////////////*/
