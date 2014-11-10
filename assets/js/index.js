@@ -7,31 +7,30 @@ const insert_html = '<div class="task-card">' +
 
 var kaykay = {
 	__data: {
-		min_size: 160,
+		should_push: 'right',
+		min_size: 200,
+		grid_size: 180,
 		margin: 25,
-		timeline_length: 0,
+		top_margin: 90,
 		timeline_element: $('#timeline'),
 		cards: 0
 	},
 	utils: {
 		random_color_class: function random_color_class() {
 			return 'color' + (Math.floor(Math.random() * 9) + 1);
-		},
-		remove_px: function remove_px() {
-			///////////////////////////
 		}
 	},
 	timeline: {
-		add_card: function add_card(left, width) {
+		add_card: function add_card(left, width, top) {
 			var new_card = $(insert_html).draggable({
 				obstacle: '.task-card:not(.ui-draggable-dragging)',
-				axis: 'x',
-				constrainment: 'parent'
+				// axis: 'x',
+				grid: [1, kaykay.__data.grid_size]
 			}).resizable({
 				handles: 'e,w',
-				constrainment: 'parent',
 				minWidth: kaykay.__data.min_size
 			}).css({
+				top: top || '',
 				left: left + 'px',
 				position: 'absolute',
 				width: (width || kaykay.__data.min_size) + 'px'
@@ -41,13 +40,7 @@ var kaykay = {
 
 			++kaykay.__data.cards;
 
-			if ((left + (width || kaykay.__data.min_size)) > kaykay.__data.timeline_length) {
-				kaykay.__data.timeline_length = left + (width || kaykay.__data.min_size);
-			}
-
-			kaykay.__data.timeline_element.append(new_card).css({
-				'width': kaykay.__data.timeline_length + 'px'
-			});
+			kaykay.__data.timeline_element.append(new_card);
 
 			$(window).scrollLeft(new_card.offset().left);
 		},
@@ -90,7 +83,13 @@ $('.add').draggable({
 		$('.u_drh').fadeOut(0).append(insert_html).fadeIn(500);
 	},
 	stop: function() {
-		kaykay.timeline.add_card(Number.parseFloat($('.u_drh').css('left').replace('px', ''), 10));
+		var left = Number.parseFloat($('.u_drh').css('left').replace('px', ''), 10);
+		var top = Number.parseFloat($('.u_drh').css('top').replace('px', ''), 10);
+		top -= top % kaykay.__data.grid_size;
+		top = top < 0 ? 0 : top;
+		top += kaykay.__data.top_margin;
+
+		kaykay.timeline.add_card(left, kaykay.__data.min_size, top);
 	}
 });
 
@@ -99,8 +98,9 @@ $(document).on('mouseleave', '.task-card', function() {
 
 	if (inputText.val().length === 0) {
 		inputText.height('0px');
+		inputText.blur();
 	} else {
-		inputText.autosize();
+		inputText.trigger('autosize.resize');
 	}
 });
 
@@ -109,13 +109,16 @@ $(document).on('mouseover', '.task-card', function() {
 
 	if (inputText.val().length === 0) {
 		inputText.height('auto');
-		inputText.autosize();
+		inputText.trigger('autosize.resize')
 	} else {
-		inputText.autosize();
+		inputText.trigger('autosize.resize');
 	}
 });
 
 // $(document).on('collision', '.task-card', function(event, ui) {
-// 	$(event.obstacle.context).css('top', Number.parseFloat($(this).css('margin').replace('px', ''), 10) * 2 + parseFloat($(this).css('height').replace('px', ''), 10) + parseFloat($(this).css('top').replace('px'), 10));
+// 	if (kaykay.__data.should_push === 'down') {
+// 		$(event.obstacle.context).css('top', (Number.parseFloat($(this).css('margin').replace('px', ''), 10) * 2 + Number.parseFloat($(this).css('height').replace('px', ''), 10) + Number.parseFloat($(this).css('top').replace('px'), 10)) + 'px');
+// 	} else if (kaykay.__data.should_push === 'right') {
+// 		$(event.obstacle.context).css('left', (Number.parseFloat($(this).css('left').replace('px', ''), 10) + Number.parseFloat($(this).css('margin').replace('px', ''), 10) * 2 + Number.parseFloat($(this).css('width').replace('px', ''), 10)) + 'px');
+// 	}
 // });
-
