@@ -3,7 +3,6 @@ var Schema   = mongoose.Schema;
 
 var ProjectSchema = new Schema({
 	title: String,
-	kayCards: Array,
 	collaborators: Array,
 	creatorID: String,
 	creatorDisplayName: String

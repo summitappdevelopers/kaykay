@@ -24,7 +24,7 @@ passport.use(new GoogleStrategy({
         		}else{
         			var newUser = new app.models.User();
                     newUser.firstName = profile.name.givenName;
-        			newUser.id = profile.id;
+        			// newUser.id = profile.id;
         			newUser.displayName = profile.displayName;
         			newUser.email = profile.emails[0].value;
         			newUser.picture = profile._json.picture;

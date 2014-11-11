@@ -4,183 +4,177 @@ var notFoundError = {message:"This resource was not found"};
 
 //====== PROJECT ROUTES ======
 
-project.route('/create')
-	.post(function(req,res){
-		
-		req.body.name = req.body.name.toLowerCase().replace(/[_\W]+/g, "");
+project.route('/:id')
+	.get(app.utilities.ensureAuthenticated,function(req, res) {
+		app.models.Project.findOne({ '_id': req.params.id, creatorID: req.user._id}, function(err, project) {
+			if(err){
+				throw err;
+			}
 
+			if(project){
+				res.json(project);
+			}else{
+				res.status(404);
+				res.json(notFoundError);
+			}
+		});
+	});
+
+project.route('/create')
+	.post(app.utilities.ensureAuthenticated,function(req,res){
 		var newProject = new app.models.Project();
 		newProject.title = req.body.title;
-		newProject.creatorID = req.user.id;
+		newProject.creatorID = req.user._id;
 		newProject.creatorDisplayName = req.user.displayName;
 
-		newProject.save(function(err){
+		req.user.projects.push(newProject);
+		req.user.save(function(err){
 			if(err){
-				console.log(err);
+				throw err;
 			}
 		});
-
 	});
 
-
-project.route('/edit/:_id')
-	.post(function(req,res){
-		app.models.Project.findOne({'_id':req.params._id}, function(err, project){
-			if(project){
-				if(project.creatorID == req.user.id){
-					//so far only title will be editable. 
-					newProject.title = req.body.title;
-				}
+project.route('/:id/edit')
+	.post(app.utilities.ensureAuthenticated,function(req,res){
+		app.models.Project.findOne({ _id: req.params.id, creatorID: req.user._id }, function(err, project){
+			if(err){
+				throw err;
 			}
-			else{
+
+			if(project){
+				//so far only title will be editable.
+				project.title = req.body.title;
+
+				for (var i = 0; i < req.user.projects.length; i++) {
+					if(req.users.project[i]._id === project.id) {
+						project = req.users.project[i];
+						req.user.save(function(err){
+							if(err){
+								throw err;
+							}
+						});
+						break;
+					}
+				}
+			}else{
 				res.status(404);
 				res.json(notFoundError);
 			}
 		});
 	});
 
-
-project.route('/remove/:id')
+project.route('/:id/remove')
 	.post(app.utilities.ensureAuthenticated, function(req,res){
-		app.models.Project.findOne({'_id':req.params.id}, function(err, project){
-			if(project){
-				if(slink.creatorID == req.user.id){
-
-					req.user.projects.splice(req.user.projects.indexOf(project),1);
-					req.user.save(function(err){
-						res.json({status:1, message:"Project removed successfully"});
-						if(err)console.log(err);
-					});
-
-
-				}
+		app.models.Project.findOne({ _id: req.params.id, creatorID: req.user._id }, function(err, project){
+			if(err){
+				throw err;
 			}
-			else{
+
+			if(project){
+				for (var i = 0; i < req.user.projects.length; i++) {
+					if(req.users.project[i]._id === project.id) {
+						req.user.projects.splice(i,1);
+						req.user.save(function(err){
+							if(err){
+								throw err;
+							}
+						});
+						break;
+					}
+				}
+			}else{
 				res.status(404);
 				res.json(notFoundError);
 			}
 		});
 	});
 
-
-//====== PROJECT kaycard ROUTES ======
+//====== KAYCARD ROUTES ======
 
 project.route('/:id/kaycard/create')
-	.post(function(req, res) {
-
-
+	.post(app.utilities.ensureAuthenticated, function(req, res) {
 		app.models.Project.findOne({'_id':req.params.id}, function(err, project){
-			if(project){
+			if (err) {
+				throw err;
+			}
 
-				var newKaycard = new app.models.Kaycard();
-				newKaycard.title = req.body.title;
-				newKaycard.description = req.body.description;
-				newKaycard.asssignedTo = req.body.asssignedTo;
-				newKaycard.top = req.body.top;
-				newKaycard.left = req.body.left;
-				newKaycard.width = req.body.width;
-				newKaycard.projectID = project._id;
-				newKaycard.creatorID = project.creatorID;
+			if(project){
+				var newKaycard = new app.models.Kaycard({
+					title: req.body.title,
+					description: req.body.description,
+					asssignedTo: req.body.asssignedTo,
+					top: req.body.top,
+					left: req.body.left,
+					width: req.body.width,
+					projectID: project._id,
+					creatorID: project.creatorID
+				});
+
 				newKaycard.save(function(err){
 					if(err){
 						console.log(err);
 					}else{
 						res.json(newKaycard);
-						}
-				});
-				project.kayCards.push(newKaycard);
-				project.save(function(err){
-					if(err){
-						console.log(err);
 					}
 				});
+			}else{
+				res.status(404);
+				res.json(notFoundError);
+			}
+		});
+	});
 
+project.route('/:id/kaycard/:kid/edit')
+	.post(app.utilities.ensureAuthenticated, function(req, res) {
+		app.models.Kaycard.findOne({creatorID: req.user._id, projectID: req.params.id, _id: req.params.kid}, function(err, kaycard) {
+			if (err) {
+				throw err;
+			}
+
+			req.body.title && (kaycard.title = req.body.title);
+			req.body.description && (kaycard.description = req.body.description);
+			req.body.asssignedTo && (kaycard.asssignedTo = req.body.asssignedTo);
+			req.body.top && (kaycard.top = req.body.top);
+			req.body.left && (kaycard.left = req.body.left);
+			req.body.width && (kaycard.width = req.body.width);
+			kaycard.save(function(err){
+				if(err){
+					throw err;
+				}
+			});
+		});
+	});
+
+project.route('/:id/kaycard/:kid/remove')
+	.post(app.utilities.ensureAuthenticated, function(req, res) {
+		app.models.Kaycard.findOne({'_id':req.params.kid, projectID:req.params.id, creatorID: req.user._id }, function(err, kaycard){
+			if(err){
+				throw err;
+			}
+
+			if(kaycard){
+				if(kaycard.creatorID == req.user._id && kaycard.projectID == project._id){
+					kaycard.remove(function(err){
+						if(err)console.log(err);
+					});
+				}
 			}else{
 				res.status(404);
 				res.json(notFoundError);
 			}
 		});
 
-	});
-
-project.route('/:id/kaycard/edit/:kid')
-	.post(function(req, res) {
-
-		app.models.Project.findOne({'_id':req.params.id}, function(err, project){
-			if(project){
-
-				app.models.Kaycard.findOne({'_id':req.params.kid}, function(err, kaycard){
-					if(kaycard){
-						if(kaycard.creatorID == req.user.id && kaycard.projectID == project._id){
-							kaycard.title = req.body.title;
-							kaycard.description = req.body.description;
-							kaycard.asssignedTo = req.body.asssignedTo;
-							kaycard.top = req.body.top;
-							kaycard.left = req.body.left;
-							kaycard.width = req.body.width;
-							kaycard.save(function(err){
-								if(err)console.log(err);
-							});
-						}
-					}else{
-						res.status(404);
-						res.json(notFoundError);
-					}
-				});
-
-			}else{
-				res.status(404);
-				res.json(notFoundError);
-			}
-
-		});
-
-	});
-
-
-project.route('/:id/kaycard/remove/:kid')
-	.post(function(req, res) {
-
-		app.models.Project.findOne({'_id':req.params.id}, function(err, project){
-			if(project){
-
-				app.models.Kaycard.findOne({'_id':req.params.kid}, function(err, kaycard){
-					if(kaycard){
-						if(kaycard.creatorID == req.user.id && kaycard.projectID == project._id){
-							kaycard.remove(function(err){
-								if(err)console.log(err);
-							});
-						}
-					}else{
-						res.status(404);
-						res.json(notFoundError);
-					}
-				});
-
-			}else{
-				res.status(404);
-				res.json(notFoundError);
-			}
-
-		});
-
-	});
-
-
-project.route('/:id')
-	.get(function(req, res) {
-		console.log(req.params.name);
-		app.models.Project.findOne({ '_id': req.params.id }, function(err, project) {
-			if(project){
-				res.json(project);
-			}
-			else{
+project.route('/:id/kaycard/all')
+	.get(app.utilities.ensureAuthenticated, function(req,res){
+		app.models.Kaycard.find({projectID: req.params.id, creatorID: req.user._id}, function(err,kaycards){
+			if (kaycards.length !== 0) {
+				res.json(kaycards);
+			} else {
 				res.status(404);
 				res.json(notFoundError);
 			}
 		});
 	});
-
-
 
 module.exports = project;
