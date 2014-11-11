@@ -170,8 +170,6 @@ $(document).on('mouseover', '.task-card', function() {
 
 $(document).on('resize', '.task-card', function() {
 	$(this).find('.time-text').text(kaykay.utils.get_date($(this).width()));
-
-	$(this).find('.input-text').autosize();
 });
 
 $('.zoom-in').click(function(){
