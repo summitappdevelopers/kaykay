@@ -52,24 +52,20 @@ project.route('/:id/edit').post(app.utilities.ensureAuthenticated,function(req,r
 		if(project){
 			//so far only title will be editable.
 			project.title = req.body.title;
-
-			for (var i = 0; i < req.user.projects.length; i++) {
-				if(req.users.project[i]._id === project._id) {
-					project = req.users.project[i];
-					req.user.save(function(err){
-						if(err){
-							throw err;
-						}
-					});
-					break;
+			project.save(function(err){
+				if(err){
+					throw err;
 				}
-			}
+				else{
+					res.json({
+						ok: true,
+						message: 'Success!',
+						data: project
+					});
+				}
 
-			res.json({
-				ok: true,
-				message: 'Success!',
-				data: project
 			});
+
 		}else{
 			res.json({
 				ok: false,
@@ -87,23 +83,19 @@ project.route('/:id/remove').post(app.utilities.ensureAuthenticated, function(re
 		}
 
 		if(project){
-			for (var i = 0; i < req.user.projects.length; i++) {
-				if(req.users.project[i]._id === project._id) {
-					req.user.projects.splice(i,1);
-					req.user.save(function(err){
-						if(err){
-							throw err;
-						}
+			
+			project.remove(function(err){
+				if(err){
+					throw err;
+				}else{
+					res.json({
+						ok: true,
+						message: 'Success!',
+						data: null
 					});
-					break;
 				}
-			}
-
-			res.json({
-				ok: true,
-				message: 'Success!',
-				data: null
 			});
+
 		}else{
 			res.json({
 				ok: false,
