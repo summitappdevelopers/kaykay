@@ -13,6 +13,7 @@ global.app = {
 
 app.utilities.ensureAuthenticated = function ensureAuthenticated(req,res,next) {
     if(req.isAuthenticated()) {return next();}
+    //res.redicrect('/our/login/screen')
 }
 
 
@@ -26,9 +27,9 @@ app.modules.methodOverride = require('method-override');
 app.modules.passport = require('passport');
 app.modules.util = require('util');
 app.modules.ejs = require('ejs');
-//app.modules.googleStrategy = require('passport-google-oauth');
+app.modules.googleStrategy = require('passport-google-oauth');
 app.utilities.api_manager = require('./routes/api_manager');
-//app.utilities.auth = require('./routes/auth');
+app.utilities.auth = require('./routes/auth/auth');
 //app.utilities.route_manager = require('./routes/route_manager');
 
 
@@ -59,7 +60,7 @@ app.express.use(app.modules.passport.session());
 app.express.use('/public', app.modules.express.static(__dirname + '../public'));
 app.express.use('/pages', app.modules.express.static(__dirname + '../views/pages'));
 app.express.use('/api',app.utilities.api_manager);
-//app.express.use('/auth',app.utilities.auth);
+app.express.use('/auth',app.utilities.auth);
 //app.express.use('/',app.utilities.route_manager);
 app.express.set('view engine','html');
 app.express.engine('html', require('ejs').renderFile);
