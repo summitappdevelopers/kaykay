@@ -159,6 +159,8 @@ $(document).on('mouseleave', '.task-card', function() {
 
 $(document).on('mouseover', '.task-card', function() {
 	var inputText = $(this).find('.input-text');
+	$(this).find('.input-text').autosize();
+
 
 	if (inputText.val().length === 0) {
 		inputText.height('auto');
