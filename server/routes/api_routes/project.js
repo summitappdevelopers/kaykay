@@ -1,7 +1,5 @@
 var project = app.modules.express.Router();
 
-var notFoundError = {message:"This resource was not found"};
-
 //====== PROJECT ROUTES ======
 
 project.route('/:id').get(app.utilities.ensureAuthenticated,function(req, res) {
@@ -11,10 +9,17 @@ project.route('/:id').get(app.utilities.ensureAuthenticated,function(req, res) {
 		}
 
 		if(project){
-			res.json(project);
+			res.json({
+				ok: true,
+				message: 'Success!',
+				data: project
+			});
 		}else{
-			res.status(404);
-			res.json(notFoundError);
+			res.json({
+				ok: false,
+				message: 'This resource was not found!',
+				data: null
+			});
 		}
 	});
 });
@@ -29,7 +34,19 @@ project.route('/create').post(app.utilities.ensureAuthenticated,function(req,res
 	req.user.save(function(err){
 		if(err){
 			throw err;
+		} else {
+			res.json({
+				ok: true,
+				message: 'Success!',
+				data: newProject
+			});
 		}
+	});
+
+	res.json({
+		ok: true,
+		message: 'Success!',
+		data: null
 	});
 });
 
@@ -54,9 +71,18 @@ project.route('/:id/edit').post(app.utilities.ensureAuthenticated,function(req,r
 					break;
 				}
 			}
+
+			res.json({
+				ok: true,
+				message: 'Success!',
+				data: project
+			});
 		}else{
-			res.status(404);
-			res.json(notFoundError);
+			res.json({
+				ok: false,
+				message: 'This resource was not found!',
+				data: null
+			});
 		}
 	});
 });
@@ -79,9 +105,18 @@ project.route('/:id/remove').post(app.utilities.ensureAuthenticated, function(re
 					break;
 				}
 			}
+
+			res.json({
+				ok: true,
+				message: 'Success!',
+				data: null
+			});
 		}else{
-			res.status(404);
-			res.json(notFoundError);
+			res.json({
+				ok: false,
+				message: 'This resource was not found!',
+				data: null
+			});
 		}
 	});
 });
@@ -108,14 +143,21 @@ project.route('/:id/kaycard/create').post(app.utilities.ensureAuthenticated, fun
 
 			newKaycard.save(function(err){
 				if(err){
-					console.log(err);
+					throw err;
 				}else{
-					res.json(newKaycard);
+					res.json({
+						ok: true,
+						message: 'Success!',
+						data: newKaycard
+					});
 				}
 			});
 		}else{
-			res.status(404);
-			res.json(notFoundError);
+			res.json({
+				ok: false,
+				message: 'This resource was not found!',
+				data: null
+			});
 		}
 	});
 });
@@ -135,6 +177,12 @@ project.route('/:id/kaycard/:kid/edit').post(app.utilities.ensureAuthenticated, 
 		kaycard.save(function(err){
 			if(err){
 				throw err;
+			} else {
+				res.json({
+					ok: true,
+					message: 'Success!',
+					data: kaycard
+				});
 			}
 		});
 	});
@@ -148,11 +196,22 @@ project.route('/:id/kaycard/:kid/remove').post(app.utilities.ensureAuthenticated
 
 		if(kaycard){
 			kaycard.remove(function(err){
-				if(err)console.log(err);
+				if(err) {
+					throw err;
+				} else {
+					res.json({
+						ok: true,
+						message: 'Success!',
+						data: null
+					});
+				}
 			});
 		}else{
-			res.status(404);
-			res.json(notFoundError);
+			res.json({
+				ok: false,
+				message: 'This resource was not found!',
+				data: null
+			});
 		}
 	});
 });
@@ -161,10 +220,17 @@ project.route('/:id/kaycard/all')
 	.get(app.utilities.ensureAuthenticated, function(req,res){
 		app.models.Kaycard.find({projectID: req.params.id, creatorID: req.user._id}, function(err,kaycards){
 			if (kaycards.length !== 0) {
-				res.json(kaycards);
+				res.json({
+					ok: true,
+					message: 'Success!',
+					data: kaycards
+				});
 			} else {
-				res.status(404);
-				res.json(notFoundError);
+				res.json({
+					ok: false,
+					message: 'This resource was not found!',
+					data: null
+				});
 			}
 		});
 	});
