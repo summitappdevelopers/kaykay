@@ -3,7 +3,7 @@ var project = app.modules.express.Router();
 //====== PROJECT ROUTES ======
 
 project.route('/:id').get(app.utilities.ensureAuthenticated,function(req, res) {
-	app.models.Project.findOne({ '_id': req.params.id, creatorID: req.user.id}, function(err, project) {
+	app.models.Project.findOne({ _id: req.params.id, creatorID: req.user.id}, function(err, project) {
 		if(err){
 			throw err;
 		}
@@ -30,8 +30,7 @@ project.route('/create').post(app.utilities.ensureAuthenticated,function(req,res
 	newProject.creatorID = req.user.id;
 	newProject.creatorDisplayName = req.user.displayName;
 
-	req.user.projects.push(newProject);
-	req.user.save(function(err){
+	newProject.save(function(err){
 		if(err){
 			throw err;
 		} else {
@@ -42,7 +41,6 @@ project.route('/create').post(app.utilities.ensureAuthenticated,function(req,res
 			});
 		}
 	});
-
 });
 
 project.route('/:id/edit').post(app.utilities.ensureAuthenticated,function(req,res){
@@ -119,7 +117,7 @@ project.route('/:id/remove').post(app.utilities.ensureAuthenticated, function(re
 //====== KAYCARD ROUTES ======
 
 project.route('/:id/kaycard/create').post(app.utilities.ensureAuthenticated, function(req, res) {
-	app.models.Project.findOne({'_id':req.params.id}, function(err, project){
+	app.models.Project.findOne({ _id: req.params.id}, function(err, project){
 		if (err) {
 			throw err;
 		}
@@ -158,7 +156,7 @@ project.route('/:id/kaycard/create').post(app.utilities.ensureAuthenticated, fun
 });
 
 project.route('/:id/kaycard/:kid/edit').post(app.utilities.ensureAuthenticated, function(req, res) {
-	app.models.Kaycard.findOne({creatorID: req.user.id, projectID: req.params.id, _id: req.params.kid}, function(err, kaycard) {
+	app.models.Kaycard.findOne({ _id: req.params.kid, creatorID: req.user.id, projectID: req.params.id }, function(err, kaycard) {
 		if (err) {
 			throw err;
 		}
@@ -184,7 +182,7 @@ project.route('/:id/kaycard/:kid/edit').post(app.utilities.ensureAuthenticated, 
 });
 
 project.route('/:id/kaycard/:kid/remove').post(app.utilities.ensureAuthenticated, function(req, res) {
-	app.models.Kaycard.findOne({'_id':req.params.kid, projectID:req.params.id, creatorID: req.user.id }, function(err, kaycard){
+	app.models.Kaycard.findOne({ _id: req.params.kid, projectID:req.params.id, creatorID: req.user.id }, function(err, kaycard){
 		if(err){
 			throw err;
 		}
@@ -211,23 +209,22 @@ project.route('/:id/kaycard/:kid/remove').post(app.utilities.ensureAuthenticated
 	});
 });
 
-project.route('/:id/kaycard/all')
-	.get(app.utilities.ensureAuthenticated, function(req,res){
-		app.models.Kaycard.find({projectID: req.params.id, creatorID: req.user.id}, function(err,kaycards){
-			if (kaycards.length !== 0) {
-				res.json({
-					ok: true,
-					message: 'Success!',
-					data: kaycards
-				});
-			} else {
-				res.json({
-					ok: false,
-					message: 'This resource was not found!',
-					data: null
-				});
-			}
-		});
+project.route('/:id/kaycard/all').get(app.utilities.ensureAuthenticated, function(req,res){
+	app.models.Kaycard.find({ projectID: req.params.id, creatorID: req.user.id }, function(err,kaycards){
+		if (kaycards.length !== 0) {
+			res.json({
+				ok: true,
+				message: 'Success!',
+				data: kaycards
+			});
+		} else {
+			res.json({
+				ok: false,
+				message: 'This resource was not found!',
+				data: null
+			});
+		}
 	});
+});
 
 module.exports = project;

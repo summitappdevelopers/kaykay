@@ -27,7 +27,6 @@ passport.use(new GoogleStrategy({
 					displayName: profile.displayName,
 					email: profile.emails[0].value,
 					picture: profile._json.picture
-					// nickName: profile.emails[0].value.substring(0,profile.emails[0].value.email.indexOf('@')).replace('.','')
 				});
 
 				newUser.save(function(err){
@@ -50,7 +49,7 @@ googleAuth.route('/')
 googleAuth.route('/callback')
 	.get(passport.authenticate('google',{failureRedirect:'/'}),
 		function(req,res){
-			res.json(req.user);
+			res.redirect('/');
 		});
 
 
