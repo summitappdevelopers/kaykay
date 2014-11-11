@@ -89,6 +89,17 @@ var kaykay = {
 				},200,'linear');
 			});
 		},
+		zoom_scale: function zoom_scale(scale){
+			kaykay.data.scale = scale  //not multiplying because it should reset directly to new scale.
+
+			$('.task-card').toArray().forEach(function(card){
+				$(card).animate({
+					width: $(card).width() * scale,
+					left: $(card).left() * scale
+				},200,'linear');
+			})
+
+		},
 		import_json: function import_data(cards) {
 			console.warn('%ckaykay.timeline.import_json: Deprecation warning!', 'color:orange');
 
