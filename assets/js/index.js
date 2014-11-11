@@ -10,13 +10,14 @@ const insert_html = '<div class="task-card">' +
 					'	<input class="input-box" type="text" placeholder="Title"/>' +
 					'	<textarea class="input-text" type="text" placeholder="Description"/></textarea>' +
 					'	<br>' +
-					'	<p class="time-text">3 Days</p>' +
+					'	<p class="time-text"></p>' +
 					'</div>';
+
 
 var kaykay = {
 	data: {
 		should_push: 'right',
-		min_size: 200,
+		min_size: 108,
 		grid_size: 180,
 		margin: 25,
 		top_margin: 90,
@@ -34,14 +35,26 @@ var kaykay = {
 			var minutes = Math.round(width / minuteWidth * 100) / 100;
 			var hours = Math.round(minutes / 60 * 100) / 100;
 			var days = Math.round(hours / 24 * 100) / 100;
+			var months = Math.round(days / 31 * 100) / 100; //rekt.. which month # do we use?
+			var years = Math.round(months / 12 * 100) / 100;
 
-			if (days > 1) {
+			if(years > 1){
+				return years + ' years';
+			}
+			else if(months > 1){
+				return months + ' months';
+			}
+			else if (days > 1) {
 				return days + ' days';
 			} else if (hours > 1) {
 				return hours + ' hours';
 			} else {
 				return minutes + ' minutes';
 			}
+		},
+		recalculate: function recalculate(card){
+			card.find('.time-text').text(kaykay.utils.get_date(card.width()));
+			card.find('.input-text').trigger('autosize.resize');
 		}
 	},
 	timeline: {
@@ -78,6 +91,9 @@ var kaykay = {
 					left: $(card).left() / 1.5
 				}, 200, 'linear');
 			});
+
+			kaykay.utils.recalculate($('.task-card'));
+
 		},
 		zoom_in: function zoom_in() {
 			kaykay.data.scale *=  1.5;
@@ -88,6 +104,9 @@ var kaykay = {
 					left: $(card).left() * 1.5
 				},200,'linear');
 			});
+
+			kaykay.utils.recalculate($('.task-card'));
+
 		},
 		zoom_scale: function zoom_scale(scale){
 			$('.task-card').toArray().forEach(function(card) {
@@ -96,6 +115,9 @@ var kaykay = {
 					left: $(card).left()/kaykay.data.scale * scale
 				},200,'linear');
 			});
+
+			kaykay.utils.recalculate($('.task-card'));
+
 			kaykay.data.scale = scale;
 		},
 		import_json: function import_data(cards) {
@@ -164,24 +186,35 @@ $(document).on('mouseover', '.task-card', function() {
 
 	if (inputText.val().length === 0) {
 		inputText.height('auto');
-		inputText.trigger('autosize.resize')
+		inputText.trigger('autosize.resize');
 	} else {
 		inputText.trigger('autosize.resize');
 	}
 });
 
 $(document).on('resize', '.task-card', function() {
-	$(this).find('.time-text').text(kaykay.utils.get_date($(this).width()));
-
-	$(this).find('.input-text').autosize();
+	kaykay.utils.recalculate($(this));
 });
 
-$('.zoom-in').click(function(){
-	kaykay.timeline.zoom_in();
+
+$('.minute').click(function(){
+	kaykay.timeline.zoom_scale(1);
 });
 
-$('.zoom-out').click(function(){
-	kaykay.timeline.zoom_out();
+$('.hour').click(function(){
+	kaykay.timeline.zoom_scale(0.01);
+});
+
+$('.day').click(function(){
+	kaykay.timeline.zoom_scale(0.001);
+});
+
+$('.month').click(function(){
+	kaykay.timeline.zoom_scale(0.0002);
+});
+
+$('.year').click(function(){
+	kaykay.timeline.zoom_scale(0.00001);
 });
 
 // $('.zoom-button').click(function(){
