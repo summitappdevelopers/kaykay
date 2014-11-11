@@ -89,6 +89,15 @@ var kaykay = {
 				},200,'linear');
 			});
 		},
+		zoom_scale: function zoom_scale(scale){
+			$('.task-card').toArray().forEach(function(card) {
+				$(card).animate({
+					width: $(card).width()/kaykay.data.scale * scale,
+					left: $(card).left()/kaykay.data.scale * scale
+				},200,'linear');
+			});
+			kaykay.data.scale = scale;
+		},
 		import_json: function import_data(cards) {
 			console.warn('%ckaykay.timeline.import_json: Deprecation warning!', 'color:orange');
 
