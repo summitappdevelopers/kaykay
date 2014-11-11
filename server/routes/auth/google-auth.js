@@ -54,4 +54,4 @@ googleAuth.route('/callback')
 		});
 
 
-module.exports = googleAuth;
+module.exports = googleAuth

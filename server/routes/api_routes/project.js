@@ -43,11 +43,6 @@ project.route('/create').post(app.utilities.ensureAuthenticated,function(req,res
 		}
 	});
 
-	res.json({
-		ok: true,
-		message: 'Success!',
-		data: null
-	});
 });
 
 project.route('/:id/edit').post(app.utilities.ensureAuthenticated,function(req,res){

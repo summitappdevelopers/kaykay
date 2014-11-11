@@ -12,8 +12,16 @@ global.app = {
 }
 
 app.utilities.ensureAuthenticated = function ensureAuthenticated(req,res,next) {
-    if(req.isAuthenticated()) {return next();}
-    //res.redicrect('/our/login/screen')
+    if (!req.user) {
+        res.json({
+            ok: false,
+            message: 'User is not logged in!',
+            data: null
+        });
+        return;
+    }
+    
+    next();
 }
 
 
@@ -67,11 +75,11 @@ app.express.engine('html', require('ejs').renderFile);
 app.express.set('views',__dirname + '../views');
 
 app.modules.passport.serializeUser(function(user,done){
-    done(null,user.id);
+    done(null,user._id);
 });
 
 app.modules.passport.deserializeUser(function(id,done){
-    app.models.User.findOne({id:id}, function(err, user){
+    app.models.User.findOne({_id:id}, function(err, user){
         done(err,user);
     });
 });
