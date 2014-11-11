@@ -189,7 +189,8 @@ body {
 
 .zoom-container {
 	vertical-align: center;
-	positin: fixed;
+	right: 0px;
+	position: fixed;
 	margin-top: 120px;
 	float: right;
 	z-index: 100;
