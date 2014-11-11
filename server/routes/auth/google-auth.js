@@ -8,37 +8,35 @@ var callbackURL = "http://localhost:1337/auth/google/callback";
 var passport = app.modules.passport;
 
 passport.use(new GoogleStrategy({
-        clientID: GOOGLE_CLIENT_ID,
-        clientSecret: GOOGLE_CLIENT_SECRET,
-        callbackURL: callbackURL
-    },
-    function(accessToken,refreshToken,profile,done) {
-        process.nextTick(function(){
+		clientID: GOOGLE_CLIENT_ID,
+		clientSecret: GOOGLE_CLIENT_SECRET,
+		callbackURL: callbackURL
+	},
+	function(accessToken,refreshToken,profile,done) {
+		process.nextTick(function(){
+			app.models.User.findOne({'_id':profile.id}, function(err,user){
+				if(err){
+					return done(err);
+				}
 
-        	app.models.User.findOne({'id':profile.id}, function(err,user){
-
-        		if(err)return done(err);
-
-        		if(user){
-        			return done(null,user);
-        		}else{
-        			var newUser = new app.models.User();
-                    newUser.firstName = profile.name.givenName;
-        			// newUser.id = profile.id;
-        			newUser.displayName = profile.displayName;
-        			newUser.email = profile.emails[0].value;
-        			newUser.picture = profile._json.picture;
-                    newUser.nickName = newUser.email.substring(0,newUser.email.indexOf('@')).replace('.','');
-        			newUser.save(function(err){
-        				if(err)throw err;
-        				return done(null,newUser);
-        			});
-
-        		}
-
-        	});
-        });
-    }
+				if(user){
+					return done(null,user);
+				}else{
+					var newUser = new app.models.User();
+					newUser.firstName = profile.name.givenName;
+					// newUser.id = profile.id;
+					newUser.displayName = profile.displayName;
+					newUser.email = profile.emails[0].value;
+					newUser.picture = profile._json.picture;
+					newUser.nickName = newUser.email.substring(0,newUser.email.indexOf('@')).replace('.','');
+					newUser.save(function(err){
+						if(err)throw err;
+						return done(null,newUser);
+					});
+				}
+			});
+		});
+	}
 ));
 
 googleAuth.route('/')
