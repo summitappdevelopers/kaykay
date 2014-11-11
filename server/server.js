@@ -71,11 +71,11 @@ app.express.engine('html', require('ejs').renderFile);
 app.express.set('views',__dirname + '../views');
 
 app.modules.passport.serializeUser(function(user,done){
-	done(null,user._id);
+	done(null,user.id);
 });
 
 app.modules.passport.deserializeUser(function(id,done){
-	app.models.User.findOne({_id:id}, function(err, user){
+	app.models.User.findOne({id:id}, function(err, user){
 		done(err,user);
 	});
 });

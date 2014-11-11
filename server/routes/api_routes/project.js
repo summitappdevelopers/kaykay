@@ -3,7 +3,7 @@ var project = app.modules.express.Router();
 //====== PROJECT ROUTES ======
 
 project.route('/:id').get(app.utilities.ensureAuthenticated,function(req, res) {
-	app.models.Project.findOne({ '_id': req.params.id, creatorID: req.user._id}, function(err, project) {
+	app.models.Project.findOne({ '_id': req.params.id, creatorID: req.user.id}, function(err, project) {
 		if(err){
 			throw err;
 		}
@@ -27,7 +27,7 @@ project.route('/:id').get(app.utilities.ensureAuthenticated,function(req, res) {
 project.route('/create').post(app.utilities.ensureAuthenticated,function(req,res){
 	var newProject = new app.models.Project();
 	newProject.title = req.body.title;
-	newProject.creatorID = req.user._id;
+	newProject.creatorID = req.user.id;
 	newProject.creatorDisplayName = req.user.displayName;
 
 	req.user.projects.push(newProject);
@@ -46,7 +46,7 @@ project.route('/create').post(app.utilities.ensureAuthenticated,function(req,res
 });
 
 project.route('/:id/edit').post(app.utilities.ensureAuthenticated,function(req,res){
-	app.models.Project.findOne({ _id: req.params.id, creatorID: req.user._id }, function(err, project){
+	app.models.Project.findOne({ _id: req.params.id, creatorID: req.user.id }, function(err, project){
 		if(err){
 			throw err;
 		}
@@ -56,7 +56,7 @@ project.route('/:id/edit').post(app.utilities.ensureAuthenticated,function(req,r
 			project.title = req.body.title;
 
 			for (var i = 0; i < req.user.projects.length; i++) {
-				if(req.users.project[i]._id === project.id) {
+				if(req.users.project[i]._id === project._id) {
 					project = req.users.project[i];
 					req.user.save(function(err){
 						if(err){
@@ -83,14 +83,14 @@ project.route('/:id/edit').post(app.utilities.ensureAuthenticated,function(req,r
 });
 
 project.route('/:id/remove').post(app.utilities.ensureAuthenticated, function(req,res){
-	app.models.Project.findOne({ _id: req.params.id, creatorID: req.user._id }, function(err, project){
+	app.models.Project.findOne({ _id: req.params.id, creatorID: req.user.id }, function(err, project){
 		if(err){
 			throw err;
 		}
 
 		if(project){
 			for (var i = 0; i < req.user.projects.length; i++) {
-				if(req.users.project[i]._id === project.id) {
+				if(req.users.project[i]._id === project._id) {
 					req.user.projects.splice(i,1);
 					req.user.save(function(err){
 						if(err){
@@ -158,7 +158,7 @@ project.route('/:id/kaycard/create').post(app.utilities.ensureAuthenticated, fun
 });
 
 project.route('/:id/kaycard/:kid/edit').post(app.utilities.ensureAuthenticated, function(req, res) {
-	app.models.Kaycard.findOne({creatorID: req.user._id, projectID: req.params.id, _id: req.params.kid}, function(err, kaycard) {
+	app.models.Kaycard.findOne({creatorID: req.user.id, projectID: req.params.id, _id: req.params.kid}, function(err, kaycard) {
 		if (err) {
 			throw err;
 		}
@@ -184,7 +184,7 @@ project.route('/:id/kaycard/:kid/edit').post(app.utilities.ensureAuthenticated, 
 });
 
 project.route('/:id/kaycard/:kid/remove').post(app.utilities.ensureAuthenticated, function(req, res) {
-	app.models.Kaycard.findOne({'_id':req.params.kid, projectID:req.params.id, creatorID: req.user._id }, function(err, kaycard){
+	app.models.Kaycard.findOne({'_id':req.params.kid, projectID:req.params.id, creatorID: req.user.id }, function(err, kaycard){
 		if(err){
 			throw err;
 		}
@@ -213,7 +213,7 @@ project.route('/:id/kaycard/:kid/remove').post(app.utilities.ensureAuthenticated
 
 project.route('/:id/kaycard/all')
 	.get(app.utilities.ensureAuthenticated, function(req,res){
-		app.models.Kaycard.find({projectID: req.params.id, creatorID: req.user._id}, function(err,kaycards){
+		app.models.Kaycard.find({projectID: req.params.id, creatorID: req.user.id}, function(err,kaycards){
 			if (kaycards.length !== 0) {
 				res.json({
 					ok: true,

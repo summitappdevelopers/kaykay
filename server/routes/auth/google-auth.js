@@ -13,28 +13,30 @@ passport.use(new GoogleStrategy({
 		callbackURL: callbackURL
 	},
 	function(accessToken,refreshToken,profile,done) {
-		process.nextTick(function(){
-			app.models.User.findOne({'_id':profile.id}, function(err,user){
-				if(err){
-					return done(err);
-				}
+		app.models.User.findOne({'id':profile.id}, function(err,user){
+			if(err){
+				return done(err);
+			}
 
-				if(user){
-					return done(null,user);
-				}else{
-					var newUser = new app.models.User();
-					newUser.firstName = profile.name.givenName;
-					// newUser.id = profile.id;
-					newUser.displayName = profile.displayName;
-					newUser.email = profile.emails[0].value;
-					newUser.picture = profile._json.picture;
-					newUser.nickName = newUser.email.substring(0,newUser.email.indexOf('@')).replace('.','');
-					newUser.save(function(err){
-						if(err)throw err;
-						return done(null,newUser);
-					});
-				}
-			});
+			if(user){
+				return done(null,user);
+			}else{
+				var newUser = new app.models.User({
+					firstName: profile.name.givenName,
+					id: profile.id,
+					displayName: profile.displayName,
+					email: profile.emails[0].value,
+					picture: profile._json.picture
+					// nickName: profile.emails[0].value.substring(0,profile.emails[0].value.email.indexOf('@')).replace('.','')
+				});
+
+				newUser.save(function(err){
+					if(err){
+						throw err;
+					}
+					return done(null,newUser);
+				});
+			}
 		});
 	}
 ));
@@ -48,7 +50,7 @@ googleAuth.route('/')
 googleAuth.route('/callback')
 	.get(passport.authenticate('google',{failureRedirect:'/'}),
 		function(req,res){
-			res.redirect('/');
+			res.json(req.user);
 		});
 
 
