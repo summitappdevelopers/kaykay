@@ -47,7 +47,7 @@ if (app.dev) {
 
 app.modules.mongoose.connect(mongo_url);
 
-app.models.TaskCard = require('./models/Kaycard');
+app.models.Kaycard = require('./models/Kaycard');
 app.models.Project = require('./models/Project');
 app.models.User = require('./models/User');
 

@@ -83,7 +83,6 @@ project.route('/:id/remove').post(app.utilities.ensureAuthenticated, function(re
 		}
 
 		if(project){
-			
 			project.remove(function(err){
 				if(err){
 					throw err;
@@ -95,7 +94,6 @@ project.route('/:id/remove').post(app.utilities.ensureAuthenticated, function(re
 					});
 				}
 			});
-
 		}else{
 			res.json({
 				ok: false,
@@ -153,23 +151,32 @@ project.route('/:id/kaycard/:kid/edit').post(app.utilities.ensureAuthenticated, 
 			throw err;
 		}
 
-		req.body.title && (kaycard.title = req.body.title);
-		req.body.description && (kaycard.description = req.body.description);
-		req.body.asssignedTo && (kaycard.asssignedTo = req.body.asssignedTo);
-		req.body.top && (kaycard.top = req.body.top);
-		req.body.left && (kaycard.left = req.body.left);
-		req.body.width && (kaycard.width = req.body.width);
-		kaycard.save(function(err){
-			if(err){
-				throw err;
-			} else {
-				res.json({
-					ok: true,
-					message: 'Success!',
-					data: kaycard
-				});
-			}
-		});
+		if(kaycard) {
+			req.body.title && (kaycard.title = req.body.title);
+			req.body.description && (kaycard.description = req.body.description);
+			req.body.asssignedTo && (kaycard.asssignedTo = req.body.asssignedTo);
+			req.body.top && (kaycard.top = req.body.top);
+			req.body.left && (kaycard.left = req.body.left);
+			req.body.width && (kaycard.width = req.body.width);
+
+			kaycard.save(function(err){
+				if(err){
+					throw err;
+				} else {
+					res.json({
+						ok: true,
+						message: 'Success!',
+						data: kaycard
+					});
+				}
+			});
+		} else {
+			res.json({
+				ok: false,
+				message: 'This resource was not found!',
+				data: null
+			});
+		}
 	});
 });
 

@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema   = mongoose.Schema;
 
-var KaycardSchema = new Schema({
+var Kaycard = new Schema({
 	title: String,
 	description: String,
 	assignedTo: Array,
@@ -12,4 +12,4 @@ var KaycardSchema = new Schema({
 	projectID: String
 });
 
-module.exports = mongoose.model('KaycardSchema', KaycardSchema);
+module.exports = mongoose.model('Kaycard', Kaycard);
