@@ -6,6 +6,11 @@ $.fn.left = function left() {
 	return Number.parseFloat(($(this).css('left') || '0').replace('px', ''), 10);
 }
 
+$.fn._width = function width(){
+	var k = $(this).attr('style');
+	return Number.parseFloat(k.substr(k.indexOf('width: '), k.length).replace(/(width\:\s|px|;)/g, ''));
+}
+
 const insert_html = '<div class="task-card">' +
 					'	<input class="input-box" type="text" placeholder="Title"/>' +
 					'	<textarea class="input-text" type="text" placeholder="Description"/></textarea>' +
@@ -23,20 +28,22 @@ var kaykay = {
 		top_margin: 90,
 		timeline_element: $('#timeline'),
 		cards: 0,
-		scale: 1,
-		minute_width: 72
+		scale: 1
 	},
 	utils: {
 		random_color_class: function random_color_class() {
 			return 'color' + (Math.floor(Math.random() * 9) + 1);
 		},
 		get_date: function get_date(width) {
-			var minuteWidth = kaykay.data.minute_width * kaykay.data.scale;
-			var minutes = Math.round(width / minuteWidth * 100) / 100;
-			var hours = Math.round(minutes / 60 * 100) / 100;
-			var days = Math.round(hours / 24 * 100) / 100;
-			var months = Math.round(days / 31 * 100) / 100; //rekt.. which month # do we use?
-			var years = Math.round(months / 12 * 100) / 100;
+
+			width /= kaykay.data.scale;
+
+			var minuteWidth = kaykay.data.min_size;
+			var minutes = Math.round((width / minuteWidth) * 100) / 100;
+			var hours = Math.round((minutes / 60) * 100) / 100;
+			var days = Math.round((hours / 24) * 100) / 100;
+			var months = Math.round((days / 31) * 100) / 100; //rekt.. which month # do we use?
+			var years = Math.round((months / 12) * 100) / 100;
 
 			if(years > 1){
 				return years + ' years';
@@ -53,7 +60,7 @@ var kaykay = {
 			}
 		},
 		recalculate: function recalculate(card){
-			card.find('.time-text').text(kaykay.utils.get_date(card.width()));
+			card.find('.time-text').text(kaykay.utils.get_date(card._width()));
 			card.find('.input-text').trigger('autosize.resize');
 		}
 	},
@@ -65,7 +72,7 @@ var kaykay = {
 				grid: [1, kaykay.data.grid_size]
 			}).resizable({
 				handles: 'e,w',
-				minWidth: kaykay.data.minute_width * kaykay.data.scale
+				minWidth: kaykay.data.min_size * kaykay.data.scale
 			}).css({
 				top: top || '',
 				left: left + 'px',
@@ -87,8 +94,8 @@ var kaykay = {
 
 			$('.task-card').toArray().forEach(function(card) {
 				$(card).animate({
-					width: $(card).width() / 1.5,
-					left: $(card).left() / 1.5
+					width: $(card).width() / 1.5
+					// left: $(card).left() / 1.5
 				}, 200, 'linear');
 			});
 
@@ -100,8 +107,8 @@ var kaykay = {
 
 			$('.task-card').toArray().forEach(function(card) {
 				$(card).animate({
-					width: $(card).width() * 1.5,
-					left: $(card).left() * 1.5
+					width: $(card).width() * 1.5
+					// left: $(card).left() * 1.5
 				},200,'linear');
 			});
 
@@ -109,14 +116,18 @@ var kaykay = {
 
 		},
 		zoom_scale: function zoom_scale(scale){
+			console.debug('1 %ccurrent_scale: %f, scale: %f, initial_width: %f, current_width: %f', 'color:orange', kaykay.data.scale, scale, $('.task-card:eq(0)')._width()/kaykay.data.scale, $('.task-card:eq(0)')._width()/kaykay.data.scale * scale);
 			$('.task-card').toArray().forEach(function(card) {
 				$(card).animate({
-					width: $(card).width()/kaykay.data.scale * scale,
-					left: $(card).left()/kaykay.data.scale * scale
-				},200,'linear');
-			});
+					width: $(card)._width() / kaykay.data.scale * scale
+					// left: $(card).left()/kaykay.data.scale * scale
+				},200,function(){
+					$(this).css('width', $(this)._width()/kaykay.data.scale * scale);
 
-			kaykay.utils.recalculate($('.task-card'));
+					kaykay.utils.recalculate($(this));
+					console.debug('2 %ccurrent_scale: %f, scale: %f, initial_width: %f, current_width: %f', 'color:orange', kaykay.data.scale, scale, $('.task-card:eq(0)')._width()/kaykay.data.scale, $('.task-card:eq(0)')._width()/kaykay.data.scale * scale);
+				});
+			});
 
 			kaykay.data.scale = scale;
 		},
@@ -202,19 +213,19 @@ $('.minute').click(function(){
 });
 
 $('.hour').click(function(){
-	kaykay.timeline.zoom_scale(0.01);
+	kaykay.timeline.zoom_scale(1/60);
 });
 
 $('.day').click(function(){
-	kaykay.timeline.zoom_scale(0.001);
+	kaykay.timeline.zoom_scale(1/(60 *24));
 });
 
 $('.month').click(function(){
-	kaykay.timeline.zoom_scale(0.0002);
+	kaykay.timeline.zoom_scale(1/(60 * 24 * 31));
 });
 
 $('.year').click(function(){
-	kaykay.timeline.zoom_scale(0.00001);
+	kaykay.timeline.zoom_scale(1/(60 * 24 * 31 * 12));
 });
 
 // $('.zoom-button').click(function(){
