@@ -76,7 +76,7 @@ project.route('/:id/edit').post(app.utilities.ensureAuthenticated,function(req,r
 	});
 });
 
-project.route('/:id/remove').post(app.utilities.ensureAuthenticated, function(req,res){
+project.route('/:id/remove').get(app.utilities.ensureAuthenticated, function(req,res){
 	app.models.Project.findOne({ _id: req.params.id, creatorID: req.user.id }, function(err, project){
 		if(err){
 			throw err;
@@ -180,7 +180,7 @@ project.route('/:id/kaycard/:kid/edit').post(app.utilities.ensureAuthenticated, 
 	});
 });
 
-project.route('/:id/kaycard/:kid/remove').post(app.utilities.ensureAuthenticated, function(req, res) {
+project.route('/:id/kaycard/:kid/remove').get(app.utilities.ensureAuthenticated, function(req, res) {
 	app.models.Kaycard.findOne({ _id: req.params.kid, projectID:req.params.id, creatorID: req.user.id }, function(err, kaycard){
 		if(err){
 			throw err;
