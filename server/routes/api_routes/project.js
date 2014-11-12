@@ -29,7 +29,8 @@ project.route('/create').post(app.utilities.ensureAuthenticated,function(req,res
 	newProject.title = req.body.title;
 	newProject.creatorID = req.user.id;
 	newProject.creatorDisplayName = req.user.displayName;
-
+	newProject.creationDate = new Date();
+	newProject.dateDisplay = app.modules.moment(newProject.creationDate).format('MMMM Do');
 	newProject.save(function(err){
 		if(err){
 			throw err;

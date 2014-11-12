@@ -117,19 +117,22 @@ var kaykay = {
 		},
 		zoom_scale: function zoom_scale(scale){
 			console.debug('1 %ccurrent_scale: %f, scale: %f, initial_width: %f, current_width: %f', 'color:orange', kaykay.data.scale, scale, $('.task-card:eq(0)')._width()/kaykay.data.scale, $('.task-card:eq(0)')._width()/kaykay.data.scale * scale);
-			$('.task-card').toArray().forEach(function(card) {
+			if(scale!==kaykay.data.scale){
+				$('.task-card').toArray().forEach(function(card) {
 				$(card).animate({
 					width: $(card)._width() / kaykay.data.scale * scale
 					// left: $(card).left()/kaykay.data.scale * scale
 				},200,function(){
-					$(this).css('width', $(this)._width()/kaykay.data.scale * scale);
+						$(this).css('width', $(this)._width()/kaykay.data.scale * scale);
 
-					kaykay.utils.recalculate($(this));
-					console.debug('2 %ccurrent_scale: %f, scale: %f, initial_width: %f, current_width: %f', 'color:orange', kaykay.data.scale, scale, $('.task-card:eq(0)')._width()/kaykay.data.scale, $('.task-card:eq(0)')._width()/kaykay.data.scale * scale);
+						kaykay.utils.recalculate($(this));
+						console.debug('2 %ccurrent_scale: %f, scale: %f, initial_width: %f, current_width: %f', 'color:orange', kaykay.data.scale, scale, $('.task-card:eq(0)')._width()/kaykay.data.scale, $('.task-card:eq(0)')._width()/kaykay.data.scale * scale);
+					});
 				});
-			});
 
-			kaykay.data.scale = scale;
+				kaykay.data.scale = scale;
+			}
+		
 		},
 		import_json: function import_data(cards) {
 			console.warn('%ckaykay.timeline.import_json: Deprecation warning!', 'color:orange');

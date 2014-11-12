@@ -21,6 +21,7 @@
     "express-session": "^1.9.1",
     "install": "^0.1.7",
     "method-override": "^2.3.0",
+    "moment": "^2.8.3",
     "mongoose": "^3.8.18",
     "npm": "^2.1.5",
     "passport": "^0.2.1",

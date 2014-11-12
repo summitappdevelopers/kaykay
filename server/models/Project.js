@@ -5,7 +5,9 @@ var ProjectSchema = new Schema({
 	title: String,
 	collaborators: Array,
 	creatorID: String,
-	creatorDisplayName: String
+	creatorDisplayName: String,
+	creationDate: Date,
+	dateDisplay: String
 });
 
 module.exports = mongoose.model('Project', ProjectSchema);

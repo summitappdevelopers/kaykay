@@ -35,9 +35,10 @@ app.modules.passport = require('passport');
 app.modules.util = require('util');
 app.modules.ejs = require('ejs');
 app.modules.googleStrategy = require('passport-google-oauth');
+app.modules.moment = require('moment');
 app.utilities.api_manager = require('./routes/api_manager');
 app.utilities.auth = require('./routes/auth/auth');
-//app.utilities.route_manager = require('./routes/route_manager');
+app.utilities.router = require('./routes/router');
 
 //====== MONGODB SETUP ======
 
@@ -61,14 +62,15 @@ app.express.use(app.modules.bodyParser.json());
 app.express.use(app.modules.methodOverride());
 app.express.use(app.modules.passport.initialize());
 app.express.use(app.modules.passport.session());
-// app.express.use('/public', app.modules.express.static(__dirname + '../public'));
-// app.express.use('/pages', app.modules.express.static(__dirname + '../views/pages'));
+app.express.use('/js', app.modules.express.static(__dirname + '/../public/js/'));
+app.express.use('/css', app.modules.express.static(__dirname + '/../public/css/'));
+app.express.use('/img', app.modules.express.static(__dirname + '/../public/images/'));
 app.express.use('/api',app.utilities.api_manager);
 app.express.use('/auth',app.utilities.auth);
-//app.express.use('/',app.utilities.route_manager);
+app.express.use('/',app.utilities.router);
 app.express.set('view engine','html');
 app.express.engine('html', require('ejs').renderFile);
-app.express.set('views',__dirname + '../views');
+app.express.set('views',__dirname + '/views');
 
 app.modules.passport.serializeUser(function(user,done){
 	done(null,user.id);
