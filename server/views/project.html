@@ -4,9 +4,9 @@
 		<title>kaykay | Task manager + Timeline</title>
 
 		<link rel="stylesheet" href="../css/utils/jquery-ui.min.css">
-		<link rel="stylesheet" href="../css/board.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-		<%- include partials/navbar/css %>
+		<link rel="stylesheet" href="/css/board.css">
+		<link rel="stylesheet" href="/css/navbar.css">
 
 		<script src="/js/utils/jquery-latest.min.js"></script>
 		<script src="/js/utils/jquery-ui.min.js"></script>
@@ -14,14 +14,13 @@
 		<script src="/js/utils/jquery-collision.min.js"></script>
 		<script src="/js/utils/jquery-ui-draggable-collision.min.js"></script>
 		<script>
-			var user = <%-JSON.stringify(user)%>;
+			var user = <%- JSON.stringify(user) %>;
 		</script>
 	</head>
 	<body>
-		<%- include partials/navbar/html %>
+		<%- include partials/navbar %>
 
 		<div class="container-fluid project-container">
-
 			<div class="add">
 				<img class="add-img" src="../img/add.svg">
 			</div>
@@ -37,7 +36,6 @@
 				<div class="zoom-button month"></div>
 				<div class="zoom-button year"></div>
 			</div>
-
 		</div>
 
 		<script src="/js/board.js"></script>
