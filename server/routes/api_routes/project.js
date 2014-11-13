@@ -84,6 +84,13 @@ project.route('/:id/remove').get(app.utilities.ensureAuthenticated, function(req
 		}
 
 		if(project){
+
+			app.models.Kaycard.remove({projectID:req.params.id},function(err){
+				if(err){
+					throw err;
+				}
+			});
+
 			project.remove(function(err){
 				if(err){
 					throw err;
