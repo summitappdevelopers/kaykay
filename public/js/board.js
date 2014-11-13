@@ -68,7 +68,6 @@ var kaykay = {
 						$.get('/api/project/'+id+'/kaycard/'+kid+'/remove', function(response){
 							if(response.ok){
 								$('div.task-card[data-id=\'' + kid + '\']').remove();
-								console.log(response);
 							}
 						});
 					}

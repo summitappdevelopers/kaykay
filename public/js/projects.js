@@ -91,7 +91,7 @@ var AddDialog = React.createClass({
 		function createProject(){
 			this.setState({showDialog: false});
 			_____l.replaceState(true);
-			console.log(this.state.title);
+
 			$.post('/api/project/create',{title:this.state.title}, function(data){
 				projects.push(data.data);
 				React.render(
