@@ -1,8 +1,10 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>kaykay | Task manager + Timeline</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
 		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Droid+Sans">
+		<link rel="stylesheet" href="/css/utils/bootstrap.min.css">
 		<link rel="stylesheet" href="/css/projects.css">
 		<link rel="stylesheet" href="/css/navbar.css">
 
@@ -17,11 +19,10 @@
 		<%- include partials/navbar %>
 
 		<div class="container-fluid project-container">
-			<h1>Projects</h1>
-			<button><img class="add-image" src="/img/add.svg"></img></button>
-			<hr>
-
-			<div id="renderer"></div>
+				<h1>Projects</h1>
+				<div id="addButton"></div>
+				<hr>
+				<div id="projects"></div>
 		</div>
 
 		<script src="/js/projects.js" type="text/jsx"></script>

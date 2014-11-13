@@ -89,6 +89,7 @@ body {
 	-webkit-animation-fill-mode: forwards;
 	padding: 10px;
 	float: left;
+	position: absolute;
 }
 
 /*.task-card:hover {

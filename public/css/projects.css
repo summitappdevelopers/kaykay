@@ -10,25 +10,11 @@ h1{
 	color: white;
 }
 
-.project-container {
+.project-row-container {
 	margin-top: 30px;
 	margin-bottom: 60px;
 	padding-left: 100px;
 	padding-right: 100px;
-}
-
-.project-container button {
-	font-family: HelveticaNeue-Light;
-	color: #FFFFFF;
-	float: right;
-	width: 50px;
-	height: 50px;
-	margin-top: -20px;
-	margin-right: -10px;
-	background: #7ED321;
-	border: none;
-	border-radius: 100%;
-	vertical-align: center;
 }
 
 .project-container hr {
@@ -59,8 +45,8 @@ h1{
 	padding-right: 10px;
 }
 
-.project-row:hover{
-	background-color: #E6E6E6;
+.project-row:hover {
+	background-color: #F2F2F2;
 	cursor: pointer;
 }
 
@@ -72,9 +58,154 @@ h1{
 	margin-right: 30px;
 }
 
+.add-image{
+	font-family: HelveticaNeue-Light;
+	color: #FFFFFF;
+	float: right;
+	width: 50px;
+	height: 50px;
+	margin-top: -20px;
+	margin-right: -10px;
+	background: #7ED321;
+	border: none;
+	border-radius: 100%;
+	vertical-align: center;
+}
+
 .add-image:hover{
 	-webkit-animation: spin 1s ease;
+	cursor: pointer;
 }
+
+.addDialog{
+	position: fixed;
+	width: 60%;
+	height: 200px;
+	background-color: black;
+	opacity: 0.9;
+	margin-top: 155px;
+	left: 300px;
+	z-index: 99999;
+}
+
+.addDialog h1{
+	margin-left: 10px;
+}
+
+.titleInput {
+	font-family: HelveticaNeue-Light;
+	height: 75px;
+	width: 100%;
+	padding: 10px;
+	background-color: black;
+	opacity: 0.8;
+	font-size: 3em;
+	border: 0;
+	color: white;
+	border: 0;
+	outline: none;
+}
+
+.fadeIn{
+	animation-name: fadeIn;
+	-webkit-animation-name: fadeIn;	
+
+	animation-duration: 0.2s;	
+	-webkit-animation-duration: 0.2s;
+
+	animation-timing-function: ease-in-out;	
+	-webkit-animation-timing-function: ease-in-out;		
+
+}
+
+.fadeOut{
+	animation-name: fadeOut;
+	-webkit-animation-name: fadeOut;	
+
+	animation-duration: 0.2s;	
+	-webkit-animation-duration: 0.2s;
+
+	animation-timing-function: ease-in-out;	
+	-webkit-animation-timing-function: ease-in-out;		
+
+	visibility: hidden !important;
+}
+
+.delete-img{
+	border-radius: 100%;
+	margin-top: -58px;
+	width: 25px;
+	height: 25px;
+	float: right;
+}
+
+.delete-img:hover{
+	background-color: #E6E6E6;
+	cursor: pointer;
+}
+
+.dialog-button{
+	display: inline-block;
+	margin-left: 10px;
+	width: 15%;
+	height: 50px;
+	color: white;
+	font-size: 18px;
+	text-align: center;
+}
+
+.dialog-button-create{
+	background-color: green;
+}
+
+.dialog-button-cancel{
+	background-color: red;
+}
+
+@keyframes fadeIn {
+	0% {
+		transform: scale(0);
+		opacity: 0.0;		
+	}
+	100% {
+		transform: scale(1);
+		opacity: 0.8;	
+	}		
+}
+
+@-webkit-keyframes fadeIn {
+	0% {
+		-webkit-transform: scale(0);
+		opacity: 0.0;		
+	}
+	100% {
+		-webkit-transform: scale(1);
+		opacity: 0.8;	
+	}			
+}
+
+@keyframes fadeOut {
+	0% {
+		transform: scale(1);
+		opacity: 0.8;		
+	}
+	100% { 
+		transform: scale(0);
+		opacity: 0;	
+	}		
+}
+
+@keyframes fadeOut {
+	0% {
+		-webkit-transform: scale(1);
+		opacity: 0.8;		
+	}
+	100% { 
+		-webkit-transform: scale(0);
+		opacity: 0;	
+	}		
+}
+
 
 @-webkit-keyframes spin {
 	from { -webkit-transform: rotate(0deg); }

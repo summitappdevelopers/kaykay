@@ -3,8 +3,8 @@
 	<head>
 		<title>kaykay | Task manager + Timeline</title>
 
-		<link rel="stylesheet" href="../css/utils/jquery-ui.min.css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/css/utils/jquery-ui.min.css">
+		<link rel="stylesheet" href="/css/utils/bootstrap.min.css">
 		<link rel="stylesheet" href="/css/board.css">
 		<link rel="stylesheet" href="/css/navbar.css">
 
@@ -13,8 +13,11 @@
 		<script src="/js/utils/jquery-autosize.min.js"></script>
 		<script src="/js/utils/jquery-collision.min.js"></script>
 		<script src="/js/utils/jquery-ui-draggable-collision.min.js"></script>
+		<script src="/js/utils/react.min.js"></script>
+		<script src="/js/utils/jsx-transformer.min.js"></script>
 		<script>
 			var user = <%- JSON.stringify(user) %>;
+			var projectID = <%- JSON.stringify(projectID) %>;
 		</script>
 	</head>
 	<body>
@@ -38,6 +41,6 @@
 			</div>
 		</div>
 
-		<script src="/js/board.js"></script>
+		<script src="/js/board.js" type="text/jsx"></script>
 	</body>
 </html>
