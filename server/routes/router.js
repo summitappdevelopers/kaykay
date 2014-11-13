@@ -9,7 +9,7 @@ router.route('/').get(function(req,res){
 });
 
 router.route('/project/:id').get(app.utilities.ensureAuthenticatedFancy,function(req,res){
-	res.render('project',{id:req.params.id,user:req.user});
+	res.render('project',{projectID:req.params.id,user:req.user});
 });
 
 router.route('/logout').get(function(req,res){
