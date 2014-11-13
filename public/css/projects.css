@@ -7,17 +7,32 @@ body{
 h1{
 	font-size: 24px;
 	font-weight: 300;
-	color:white;
+	color: white;
 }
-
 
 .project-container {
 	margin-top: 30px;
+	margin-bottom: 60px;
 	padding-left: 100px;
 	padding-right: 100px;
 }
 
+.project-container button {
+	font-family: HelveticaNeue-Light;
+	color: #FFFFFF;
+	float: right;
+	width: 50px;
+	height: 50px;
+	margin-top: -20px;
+	margin-right: -10px;
+	background: #7ED321;
+	border: none;
+	border-radius: 100%;
+	vertical-align: center;
+}
+
 .project-container hr {
+	margin-bottom: 30px;
 	margin-left: -10px;
 	margin-right: -10px;
 }
@@ -55,20 +70,6 @@ h1{
 	float: right;
 	margin-top: -60px;
 	margin-right: 30px;
-}
-
-.project-container button {
-	font-family: HelveticaNeue-Light;
-	color: #FFFFFF;
-	float: right;
-	width: 50px;
-	height: 50px;
-	margin-top: -20px;
-	margin-right: 20px;
-	background: #7ED321;
-	border: none;
-	border-radius: 100%;
-	vertical-align: center;
 }
 
 .add-image:hover{
