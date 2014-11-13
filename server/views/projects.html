@@ -1,9 +1,11 @@
 <html>
 	<head>
 		<title>kaykay | Task manager + Timeline</title>
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Droid+Sans">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-		<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="/css/projects.css">
+		<%- include partials/navbar/css %>
+
 		<script src="/js/utils/jquery-latest.min.js"></script>
 		<script src="/js/utils/react.min.js"></script>
 		<script src="/js/utils/jsx-transformer.min.js"></script>
@@ -12,9 +14,9 @@
 		</script>
 	</head>
 	<body>
-		<% include ./partials/navbar %>
-		<div class="container-fluid project-container">
+		<%- include partials/navbar/html %>
 
+		<div class="container-fluid project-container">
 			<h1>Projects</h1>
 			<button><img class="add-image" src="/img/add.svg"></img></button>
 			<hr>
