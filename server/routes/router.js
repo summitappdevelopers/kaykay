@@ -9,7 +9,7 @@ var router = app.modules.express.Router();
 	});
 
 	router.route('/project/:id').get(app.utilities.ensureAuthenticated,function(req,res){
-		res.render('project',{id:req.params.id});
+		res.render('project',{id:req.params.id,user:req.user});
 	});
 
 	router.route('/logout').get(function(req,res){
