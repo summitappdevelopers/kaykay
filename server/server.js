@@ -24,6 +24,15 @@ app.utilities.ensureAuthenticated = function ensureAuthenticated(req,res,next) {
 	next();
 }
 
+app.utilities.ensureAuthenticatedFancy = function ensureAuthenticatedFancy(req,res,next) {
+	if (!req.user) {
+		res.redirect('/?e=l');
+		return;
+	}
+
+	next();
+}
+
 app.modules.http = require('http');
 app.modules.express = require('express');
 app.modules.session = require('express-session');

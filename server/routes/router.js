@@ -8,7 +8,7 @@ router.route('/').get(function(req,res){
 	}
 });
 
-router.route('/project/:id').get(app.utilities.ensureAuthenticated,function(req,res){
+router.route('/project/:id').get(app.utilities.ensureAuthenticatedFancy,function(req,res){
 	res.render('project',{id:req.params.id,user:req.user});
 });
 
