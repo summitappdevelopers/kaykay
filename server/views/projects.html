@@ -27,13 +27,11 @@
 		<script type="text/jsx">
 			var ProjectBox = React.createClass({
 				render: function() {
-					this.props.data = JSON.parse(this.props.data).data;
-
 					function onClick(id) {
 						window.location.href = '/project/' + id;
 					}
 
-					var projectNodes = this.props.data.map(function(project) {
+					var projectNodes = this.props.data.data.map(function(project) {
 						return (
 							<div className="project-row" key={project._id} onClick={onClick.bind(this, project._id)}>
 								<h1>{project.title}</h1>
@@ -50,11 +48,11 @@
 				}
 			});
 
-			var projects = $.ajax({
+			var projects = JSON.parse($.ajax({
 				type: 'GET',
 				url: '/api/user/projects',
 				async: false
-			}).responseText;
+			}).responseText);
 
 			React.render(
 				<ProjectBox data={projects} />,
