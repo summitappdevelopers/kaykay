@@ -64,6 +64,15 @@ var kaykay = {
 				if (this.props.data.ok) {
 					function onChange(){}; /** Useless onChange function. */
 
+					function removeProject(id,kid){
+						$.get('/api/project/'+id+'/kaycard/'+kid+'/remove', function(response){
+							if(response.ok){
+								$('div.task-card[data-id=\'' + kid + '\']').remove();
+								console.log(response);
+							}
+						});
+					}
+
 					var kaycardNodes = this.props.data.data.map(function(kaycard) {
 						kaykay.data.cards++;
 
@@ -76,6 +85,7 @@ var kaykay = {
 						return (
 							<div style={cardStyle} className="task-card" key={kaycard._id} data-id={kaycard._id}>
 								<input className="input-box" type="text" placeholder="Title" value={kaycard.title} onChange={onChange.bind(this)} />
+								<RemoveButton removeKaycard={removeProject.bind(this, projectID, kaycard._id)} />
 								<textarea className="input-text" type="text" placeholder="Description" value={kaycard.description} onChange={onChange.bind(this)}></textarea>
 								<br />
 								<p className="time-text"></p>
@@ -94,6 +104,14 @@ var kaykay = {
 					);
 				}
 			}
+		});
+
+		var RemoveButton = React.createClass({
+    		render: function(){
+        		return (
+           			<img className="delete-img" src="/img/x.svg" onClick={this.props.removeKaycard}></img>
+        		)
+    		}
 		});
 
 		var kaycards = JSON.parse($.ajax({

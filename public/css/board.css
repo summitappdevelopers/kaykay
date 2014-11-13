@@ -207,3 +207,18 @@ button {
 }
 
 /*////////////////////  ZOOM BUTTON END  ////////////////////*/
+
+.delete-img{
+	border-radius: 100%;
+	width: 25px;
+	height: 25px;
+	float: right;
+	position: absolute;
+	margin-right: 10px;
+}
+
+.delete-img:hover{
+	background-color: #E6E6E6;
+	cursor: pointer;
+}
+
