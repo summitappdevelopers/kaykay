@@ -148,9 +148,13 @@
 				render: function() {
 					this.props.data = JSON.parse(this.props.data).data;
 
+					function onClick(id) {
+						window.location.href = '/project/' + id;
+					}
+
 					var projectNodes = this.props.data.map(function(project) {
 						return (
-							<div className="project-row" key={project._id}>
+							<div className="project-row" key={project._id} onClick={onClick.bind(this, project._id)}>
 								<h1>{project.title}</h1>
 								<span className="last-edited">Created on {project.dateDisplay}.</span>
 							</div>
