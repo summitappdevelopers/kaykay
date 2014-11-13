@@ -4,29 +4,39 @@
 		<title>kaykay | Task manager + Timeline</title>
 
 		<link rel="stylesheet" href="../css/utils/jquery-ui.min.css">
-		<link rel="stylesheet" href="../css/index.css">
+		<link rel="stylesheet" href="../css/board.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 
 		<script src="/js/utils/jquery-latest.min.js"></script>
 		<script src="/js/utils/jquery-ui.min.js"></script>
 		<script src="/js/utils/jquery-autosize.min.js"></script>
 		<script src="/js/utils/jquery-collision.min.js"></script>
 		<script src="/js/utils/jquery-ui-draggable-collision.min.js"></script>
+		<script>
+			var user = <%-JSON.stringify(user)%>;
+		</script>
 	</head>
 	<body>
-		<div class="add">
-			<img class="add-img" src="../img/add.svg">
-		</div>
+		<% include ./partials/navbar %>
 
-		<div id="timeline">
-			<!--<div id="line-of-time"></div>-->
-		</div>
+		<div class="container-fluid project-container">
 
-		<div class="zoom-container">
-			<div class="zoom-button minute"></div>
-			<div class="zoom-button hour"></div>
-			<div class="zoom-button day"></div>
-			<div class="zoom-button month"></div>
-			<div class="zoom-button year"></div>
+			<div class="add">
+				<img class="add-img" src="../img/add.svg">
+			</div>
+
+			<div id="timeline">
+				<!--<div id="line-of-time"></div>-->
+			</div>
+
+			<div class="zoom-container">
+				<div class="zoom-button minute"></div>
+				<div class="zoom-button hour"></div>
+				<div class="zoom-button day"></div>
+				<div class="zoom-button month"></div>
+				<div class="zoom-button year"></div>
+			</div>
+
 		</div>
 
 		<script src="/js/board.js"></script>
