@@ -47,6 +47,12 @@ body {
 	margin: 0px;
 }
 
+button {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+}
+
 /*////////////////////  GLOBAL END  ////////////////////*/
 
 /*////////////////////  ADD BUTTON START  ////////////////////*/
