@@ -29,7 +29,7 @@ var AddModal = React.createClass({
 				<h1>Project Title</h1>
 				<input onChange={this.titleOnChange} value={this.state.title} className="titleInput" autoFocus/>
 				<div className="dialog-button dialog-button-create" onClick={this.handleAddProject}><span>create</span></div>
-				<div className="dialog-button dialog-button-cancel" onClick={this.props.cancelDialog}><span>cancel</span></div>
+				<div className="dialog-button dialog-button-cancel" onClick={this.props.dismissModal}><span>cancel</span></div>
 			</div>
 		);
 	}
