@@ -4,7 +4,6 @@ var projects = JSON.parse($.ajax({
 	async: false
 }).responseText).data;
 
-
 var Projects = React.createClass({
 	render: function() {
 		function onClick(id) {
@@ -18,7 +17,6 @@ var Projects = React.createClass({
 				}
 			});
 		}
-
 
 		var projectNodes = this.props.projects.map(function(project) {
 			return (
@@ -38,7 +36,6 @@ var Projects = React.createClass({
 			</div>
 		);
 	}
-
 });
 
 var RemoveButton = React.createClass({
@@ -72,22 +69,16 @@ var AddButton = React.createClass({
 			</div>
 		);
 	}
-
 });
 
 var AddDialog = React.createClass({
-
-
 	getInitialState: function() {
 		return {isShown: true};
 	},
-
 	titleOnChange: function(e){
 		this.setState({title:e.target.value});
 	},
-
 	render: function() {
-
 		function createProject(){
 			this.setState({showDialog: false});
 			_____l.replaceState(true);
@@ -107,22 +98,17 @@ var AddDialog = React.createClass({
 		}
 
 		return (
-
 			<div className={this.state.isShown?"addDialog fadeIn":"addDialog fadeOut"}>
 				<h1>Project Title</h1>
 				<input onChange={this.titleOnChange} value={this.state.title} className="titleInput" autoFocus/>
 				<div className="dialog-button dialog-button-create" onClick={createProject.bind(this)}><span>create</span></div>
 				<div className="dialog-button dialog-button-cancel" onClick={cancelDialog.bind(this)}><span>cancel</span></div>
 			</div>
-
 		);
-
 	}
-
 });
 
 React.render(
-		<AddButton />,
-		$('#addButton').get(0)
+	<AddButton />,
+	$('#addButton').get(0)
 );
-
