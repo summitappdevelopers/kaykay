@@ -128,5 +128,5 @@ var ProjectApp = React.createClass({
 
 React.render(
 	<ProjectApp />,
-	$('.project-container').get(0)
+	document.getElementsByClassName('project-container')[0]
 );
