@@ -14,6 +14,14 @@ $.fn.left = function left(setter) {
 	return Number.parseFloat((this.css('left') || '0').replace('px', ''), 10);
 };
 
+$.fn.width = function width(setter) {
+	if (setter) {
+		return this.css('width', setter);
+	}
+	
+	return Number.parseFloat((this.css('width') || '0').replace('px', ''), 10);
+};
+
 $.fn.add_data = function mData(keys) {
 	if (typeof keys !== 'object') {
 		throw new Error('Argument must be a dictionary.');
