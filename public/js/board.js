@@ -14,7 +14,7 @@ $.fn.left = function left(setter) {
 	return Number.parseFloat((this.css('left') || '0').replace('px', ''), 10);
 };
 
-$.fn.width = function width(setter) {
+$.fn._width = function width(setter) {
 	if (setter) {
 		return this.css('width', setter);
 	}
@@ -148,7 +148,7 @@ var kaykay = {
 			}).data('initial', {
 				top: child.top(),
 				left: child.left(),
-				width: child.width(),
+				width: child._width(),
 				title: child.find('.input-box').val(),
 				description: child.find('.input-text').val()
 			});
@@ -181,14 +181,14 @@ var kaykay = {
 			}
 		},
 		recalculate: function recalculate(card){
-			card.find('.time-text').text(kaykay.utils.get_date(card.width()));
+			card.find('.time-text').text(kaykay.utils.get_date(card._width()));
 			card.find('.input-text').trigger('autosize.resize');
 		},
 		save: function save(card) {
 			var updated_initial = {
 				top: card.top(),
 				left: card.left(),
-				width: card.width(),
+				width: card._width(),
 				title: card.find('.input-box').val(),
 				description: card.find('.input-text').val()
 			};
@@ -227,13 +227,13 @@ var kaykay = {
 			new_card.data('initial', {
 				top: new_card.top(),
 				left: new_card.left(),
-				width: new_card.width(),
+				width: new_card._width(),
 				title: new_card.find('.input-box').val(),
 				body: new_card.find('.input-text').val()
 			});
 
 			new_card.find('.input-text').height('0px');
-			new_card.find('.time-text').text(kaykay.utils.get_date(new_card.width()));
+			new_card.find('.time-text').text(kaykay.utils.get_date(new_card._width()));
 
 			++kaykay.data.cards;
 
@@ -246,7 +246,7 @@ var kaykay = {
 
 			$('.task-card').toArray().forEach(function(card) {
 				$(card).animate({
-					width: $(card).width() / 1.5
+					width: $(card)._width() / 1.5
 					// left: $(card).left() / 1.5
 				}, 200, 'linear');
 			});
@@ -258,7 +258,7 @@ var kaykay = {
 
 			$('.task-card').toArray().forEach(function(card) {
 				$(card).animate({
-					width: $(card).width() * 1.5
+					width: $(card)._width() * 1.5
 					// left: $(card).left() * 1.5
 				},200,'linear');
 			});
@@ -268,14 +268,14 @@ var kaykay = {
 		zoom_scale: function zoom_scale(scale){
 			if(scale!==kaykay.data.scale){
 				$('.task-card').toArray().forEach(function(card) {
-					$(card).data('final_width', $(card).width() / kaykay.data.scale * scale);
+					$(card).data('final_width', $(card)._width() / kaykay.data.scale * scale);
 					// $(card).data('final_left', $(card).left() / kaykay.data.scale * scale);
 
 					$(card).stop(true, true).animate({
 						width: $(card).data('final_width')
 						// left: $(card).data('final_left')
 					}, 200, function(){
-						$(this).width($(this).data('final_width'));
+						$(this)._width($(this).data('final_width'));
 						// $(this).left($(this).data('final_left'));
 
 						kaykay.utils.recalculate($(this));
